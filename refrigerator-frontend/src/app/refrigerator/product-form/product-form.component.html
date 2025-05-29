@@ -1,0 +1,38 @@
+<div class="modal">
+    <div class="modal-content">
+        <form [formGroup]="productForm" (ngSubmit)="handleSubmit()">
+            <p>{{formType === "UPDATE" ? "Update product" : "Add new product"}}</p>
+            <div>                
+                <label for="product-name">Product name</label>
+                <input id="product-name" formControlName="name"/>
+                @if(productForm.get('name')?.invalid && productForm.get('name')?.touched){
+                    <div>
+                        Product name is required
+                    </div>
+                }                
+            </div>
+            <div>                
+                <label for="product-time-stored">Product time stored</label>
+                <input id="product-time-stored" type="datetime-local" formControlName="timeStored"/>
+                @if(productForm.get('timeStored')?.invalid && productForm.get('timeStored')?.touched){
+                    <div>
+                        Time stored is required
+                    </div>
+                }      
+            </div> 
+            <div>                
+                <label for="product-best-before-date">Product best before date</label>
+                <input id="product-best-before-date" type="date" formControlName="bestBeforeDate"/>
+                @if(productForm.get('bestBeforeDate')?.invalid && productForm.get('bestBeforeDate')?.touched){
+                    <div>
+                        Best before date is required
+                    </div>
+                }      
+            </div> 
+            <div>
+                <button class="cancel-button" type="button" (click) = "handleCancel()">Cancel</button>
+                <button class="submit-button" type="submit" [disabled] = "productForm.invalid">Submit</button>
+            </div>                       
+        </form>
+    </div>
+

@@ -1,0 +1,62 @@
+<div class="product-list-container">
+    <div class="heading">
+        <h3>Products</h3>
+        <div>
+           
+            <span class="status-dot fresh"></span>Fresh
+            <label>
+                <input id="checkboxFresh" type="checkbox" aria-label="Select product" [checked]="checked1"
+                (click) = "handleCheckbox1()"/>
+            </label>              
+              
+            <span class="status-dot expired"></span>Expired
+            <label>
+                <input id="checkboxExpired"type="checkbox" aria-label="Select product" [checked]="checked2"
+                (click) = "handleCheckbox2()"/>
+            </label>           
+        
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Time Stored</th>
+                <th>Best Before Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(product of products$ | async; track product.id) {
+
+            <tr>
+                <td>
+                    <label class="{{product.expired ? 'expired-product' : ''}}">
+                        {{product.name}}
+                    </label>
+                </td>
+                <td>
+                    {{product.timeStored| date:"dd-MM-YYYY hh:mm:ss a"}}
+                </td>                
+                <td>
+                    {{product.bestBeforeDate| date:"dd-MM-YYYY"}}
+                </td>
+                <td>
+                    <span class="status-dot {{product.expired ? 'expired' : 'fresh'}}"></span> {{product.expired? 'Expired' : 'Fresh'}}
+                </td>                
+                <td (click)="updateProduct(product)">✏️</td>
+                <td (click)="deleteProduct(product.id)">❌</td>                
+            </tr>
+            } 
+
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <button (click)="addNewProduct()">Add New Product</button>
+    </div>
+    @if(showModal){
+    <app-product-form (closePanel)="handleModalClose($event)" [currentProduct]="selectedProduct" [formType]="formType"></app-product-form>
+    }
+</div>
+
